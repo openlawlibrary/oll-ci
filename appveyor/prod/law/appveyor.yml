@@ -36,6 +36,16 @@ install:
 
 
 before_build:
+  - ps: $env:TAF_WHEEL = "taf"
+  - ps: $env:CORE_WHEEL = "--pre oll-core"
+  - ps: $env:PARTNERS_WHEEL = "--pre oll-partners"
+
+  - "%PYTHON%\\python.exe -m pip -q install wheel"
+  - "%PYTHON%\\python.exe -m pip -q install %TAF_WHEEL%"
+  - "%PYTHON%\\python.exe -m pip -q install %CORE_WHEEL%"
+  - "%PYTHON%\\python.exe -m pip -q install %PARTNERS_WHEEL%"
+  - "%PYTHON%\\python.exe -m pip list"
+
   - "%PYTHON%\\python.exe  -m oll.tools.cli ci clone-repos --library-root .. --auth ../%APPVEYOR_PROJECT_SLUG% "
 
   - git -C ..\%APPVEYOR_PROJECT_SLUG% remote set-url origin git@github.com:%APPVEYOR_REPO_NAME%.git
