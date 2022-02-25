@@ -46,6 +46,21 @@ before_build:
   - ps: $CONTENT_ARRAY = $REQUIREMENTS_CONTENT -split "# ";
   - ps: $env:PARTNER_NAMESPACE = $CONTENT_ARRAY[1];
 
+  - ps: $env:TAF_WHEEL = "taf"
+  - ps: $env:CORE_WHEEL = "--pre oll-core"
+  - ps: >-
+        If($env:PARTNER -eq 'OLL_PARTNERS_US_DC') {
+          $env:PARTNERS_WHEEL = "--pre oll-partners-us-dc"
+        } else {  
+          $env:PARTNERS_WHEEL = "--pre oll-partners"
+        };
+        
+  - "%PYTHON%\\python.exe -m pip -q install wheel"
+  - "%PYTHON%\\python.exe -m pip -q install %TAF_WHEEL%"
+  - "%PYTHON%\\python.exe -m pip -q install %CORE_WHEEL%"
+  - "%PYTHON%\\python.exe -m pip -q install %PARTNERS_WHEEL%"
+  - "%PYTHON%\\python.exe -m pip list"
+
  - "%PYTHON%\\python.exe  -m oll.tools.cli ci clone-repos --library-root .. --xml ../%APPVEYOR_PROJECT_SLUG% "
 
   # install versioned resources (if and only if the build is a tag or cron build)

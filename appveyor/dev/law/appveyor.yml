@@ -58,10 +58,19 @@ before_build:
         git clone -q git@github.com:openlawlibrary/platform.git ..\wheels\platform
         git -C ..\wheels\platform checkout -q $env:PLATFORM_BRANCH
         $env:CORE_WHEEL = "-e ..\wheels\platform\core"
-        $env:PARTNERS_WHEEL = "-e ..\wheels\platform\partners"
+        
+        If($env:PARTNER -eq 'OLL_PARTNERS_US_DC') {
+          $env:PARTNERS_WHEEL = "-e ..\wheels\platform\partners-us-dc"
+        } else {  
+          $env:PARTNERS_WHEEL = "-e ..\wheels\platform\partners"
+        };
       } else {
         $env:CORE_WHEEL = "--pre oll-core"
-        $env:PARTNERS_WHEEL = "--pre oll-partners"
+        If($env:PARTNER -eq 'OLL_PARTNERS_US_DC') {
+          $env:PARTNERS_WHEEL = "--pre oll-partners-us-dc"
+        } else {  
+          $env:PARTNERS_WHEEL = "--pre oll-partners"
+        };
       };
 
   - "%PYTHON%\\python.exe -m pip -q install wheel"
