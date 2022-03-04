@@ -61,7 +61,7 @@ before_build:
   - "%PYTHON%\\python.exe -m pip -q install %PARTNERS_WHEEL%"
   - "%PYTHON%\\python.exe -m pip list"
 
- - "%PYTHON%\\python.exe  -m oll.tools.cli ci clone-repos --library-root .. --xml ../%APPVEYOR_PROJECT_SLUG% "
+  - "%PYTHON%\\python.exe  -m oll.tools.cli ci clone-repos --library-root .. --xml ../%APPVEYOR_PROJECT_SLUG% "
 
   # install versioned resources (if and only if the build is a tag or cron build)
   - "%PYTHON%\\python.exe -m pip -q install -r requirements.txt"
@@ -70,8 +70,8 @@ before_build:
   - git -C ..\%UPSTREAM% rev-parse HEAD
 
 build_script:
-   - ps: $env:FLAG = if ($env:APPVEYOR_PULL_REQUEST_NUMBER -eq $null) { "--deploy" }
-   - "%PYTHON%\\python.exe  -m oll.tools.cli ci build-preview --library-root .. --auth ../law %FLAG%"
+  - ps: $env:FLAG = if ($env:APPVEYOR_PULL_REQUEST_NUMBER -eq $null) { "--deploy" }
+  - "%PYTHON%\\python.exe  -m oll.tools.cli ci build-preview --library-root .. --auth ../law %FLAG%"
 
 test_script:
   - echo Skipping doomed test discovery to save time
