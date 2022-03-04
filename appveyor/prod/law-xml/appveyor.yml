@@ -77,7 +77,10 @@ test_script:
   - echo Skipping doomed test discovery to save time
   # run roundtrip tests
   # uncomment when tests are implemented
-  - "cd %APPVEYOR_BUILD_FOLDER% && %PYTHON%\\python.exe -m pytest --pyargs ' + $env:PARTNER_NAMESPACE + '.tests.docs.code.roundtrip -m "full_roundtrip"';
+  - ps: >-
+      cd $env:APPVEYOR_BUILD_FOLDER;
+      $run_roundtrip = $env:PYTHON + '\python.exe -m pytest --pyargs ' + $env:PARTNER_NAMESPACE + '.tests.docs.code.roundtrip -m "full_roundtrip"';
+      iex $run_roundtrip
 
 notifications:
   - provider: Slack
