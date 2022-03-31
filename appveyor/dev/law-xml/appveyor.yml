@@ -61,7 +61,7 @@ before_build:
           git remote set-url origin git@github.com:$env:APPVEYOR_REPO_NAME'.git';
 
           $requirementsContent = $REQUIREMENTS_CONTENT;
-          $requirementsContent | Set-Content -Path 'requirements.txt';
+          $requirementsContent | Set-Content -NoNewline -Path 'requirements.txt';
           git add requirements.txt;
           git commit -m "Reverted requirements.txt update";
           git push origin HEAD:master;
