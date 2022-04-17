@@ -80,7 +80,12 @@ test_script:
   - ps: >-
       cd $env:APPVEYOR_BUILD_FOLDER;
       $run_roundtrip = $env:PYTHON + '\python.exe -m pytest --pyargs ' + $env:PARTNER_NAMESPACE + '.tests.docs.code.roundtrip -m "full_roundtrip"';
-      iex $run_roundtrip
+      iex $run_roundtrip;
+      if ($LastExitCode -eq 4 -or $LastExitCode -eq 5) {
+        Write-Warning "Skipping roundtrip tests - roundtrip tests not found";
+      } elseif ($LastExitCode -ne 0) {
+        $host.SetShouldExit($LastExitCode);
+      }
 
 notifications:
   - provider: Slack
