@@ -80,7 +80,7 @@ before_build:
         git clone -q git@github.com:openlawlibrary/platform.git ..\wheels\platform
         git -C ..\wheels\platform checkout -q $env:PLATFORM_BRANCH
         $env:CORE_WHEEL = "-e ..\wheels\platform\core"
-        If($env:PARTNER -eq 'OLL_PARTNERS_US_DC') {
+        If($env:PARTNER_NAMESPACE -eq 'oll.partners.us.dc') {
           $env:PARTNERS_WHEEL = "-e ..\wheels\platform\partners-us-dc"
         }
         else {
@@ -88,7 +88,7 @@ before_build:
         };
       } else {
         $env:CORE_WHEEL = "--pre oll-core"
-        If($env:PARTNER -eq 'OLL_PARTNERS_US_DC') {
+        If($env:PARTNER_NAMESPACE -eq 'oll.partners.us.dc') {
           $env:PARTNERS_WHEEL = "--pre oll-partners-us-dc"
         } else {  
           $env:PARTNERS_WHEEL = "--pre oll-partners"

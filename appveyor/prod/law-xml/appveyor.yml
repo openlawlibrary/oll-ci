@@ -49,7 +49,7 @@ before_build:
   - ps: $env:TAF_WHEEL = "taf"
   - ps: $env:CORE_WHEEL = "--pre oll-core"
   - ps: >-
-        If($env:PARTNER -eq 'OLL_PARTNERS_US_DC') {
+        If($env:PARTNER_NAMESPACE -eq 'oll.partners.us.dc') {
           $env:PARTNERS_WHEEL = "--pre oll-partners-us-dc"
         } else {  
           $env:PARTNERS_WHEEL = "--pre oll-partners"
