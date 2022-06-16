@@ -4,7 +4,7 @@ environment:
   matrix:
     # For Python versions available on Appveyor, see
     # http://www.appveyor.com/docs/installed-software#python
-    - PYTHON: "C:\\Python36-x64"
+    - PYTHON: "C:\\Python310-x64"
 
 # Do not build feature branch with open Pull Requests
 skip_branch_with_pr: true
