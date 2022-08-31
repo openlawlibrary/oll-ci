@@ -36,10 +36,8 @@ install:
 
 
 before_build:
-  - ps: $env:TAF_WHEEL = "taf"
-        
+
   - "%PYTHON%\\python.exe -m pip -q install wheel"
-  - "%PYTHON%\\python.exe -m pip -q install %TAF_WHEEL%"
   - "%PYTHON%\\python.exe -m pip list"
 
   - "%PYTHON%\\python.exe  -m oll.tools.cli ci clone-repos --library-root .. --auth ../%APPVEYOR_PROJECT_SLUG% "
@@ -47,7 +45,7 @@ before_build:
   - git -C ..\%APPVEYOR_PROJECT_SLUG% remote set-url origin git@github.com:%APPVEYOR_REPO_NAME%.git
 
   - "%PYTHON%\\python.exe -m pip -q install wheel"
-  - "%PYTHON%\\python.exe -m pip -q install -r requirements.txt --pre"
+  - "%PYTHON%\\python.exe -m pip -q install -r requirements.txt"
 
 
 build_script:

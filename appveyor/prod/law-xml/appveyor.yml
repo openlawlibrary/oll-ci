@@ -46,16 +46,14 @@ before_build:
   - ps: $CONTENT_ARRAY = $REQUIREMENTS_CONTENT -split "# ";
   - ps: $env:PARTNER_NAMESPACE = $CONTENT_ARRAY[1];
 
-  - ps: $env:TAF_WHEEL = "taf"
         
   - "%PYTHON%\\python.exe -m pip -q install wheel"
-  - "%PYTHON%\\python.exe -m pip -q install %TAF_WHEEL%"
   - "%PYTHON%\\python.exe -m pip list"
 
   - "%PYTHON%\\python.exe  -m oll.tools.cli ci clone-repos --library-root .. --xml ../%APPVEYOR_PROJECT_SLUG% "
 
   # install versioned resources (if and only if the build is a tag or cron build)
-  - "%PYTHON%\\python.exe -m pip -q install -r requirements.txt --pre"
+  - "%PYTHON%\\python.exe -m pip -q install -r requirements.txt"
   - "%PYTHON%\\python.exe -m pip -q install pytest"
   # print out the git commits for xml repo
   - git -C ..\%UPSTREAM% rev-parse HEAD
