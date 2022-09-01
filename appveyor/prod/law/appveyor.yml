@@ -37,15 +37,14 @@ install:
 
 before_build:
 
-  - "%PYTHON%\\python.exe -m pip -q install wheel"
+  - "%PYTHON%\\python.exe -m pip -q install -r requirements.txt"
+  - "%PYTHON%\\python.exe -m pip -q install pytest"
   - "%PYTHON%\\python.exe -m pip list"
 
   - "%PYTHON%\\python.exe  -m oll.tools.cli ci clone-repos --library-root .. --auth ../%APPVEYOR_PROJECT_SLUG% "
 
   - git -C ..\%APPVEYOR_PROJECT_SLUG% remote set-url origin git@github.com:%APPVEYOR_REPO_NAME%.git
 
-  - "%PYTHON%\\python.exe -m pip -q install wheel"
-  - "%PYTHON%\\python.exe -m pip -q install -r requirements.txt"
 
 
 build_script:
