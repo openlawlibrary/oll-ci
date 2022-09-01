@@ -40,32 +40,19 @@ install:
 
 before_build:
   # read requirements.txt and split it by # to get partners namespace.
-  # this is necessary because pytest expects an argument containing specific partner
+  # this is necessary because of roundtripping tests
   # example result:  oll.partners.us.ca.cities.san_mateo
   - ps: $REQUIREMENTS_CONTENT = Get-Content .\requirements.txt -Raw;
   - ps: $CONTENT_ARRAY = $REQUIREMENTS_CONTENT -split "# ";
   - ps: $env:PARTNER_NAMESPACE = $CONTENT_ARRAY[1];
 
-  - ps: $env:TAF_WHEEL = "taf"
-  - ps: $env:CORE_WHEEL = "--pre oll-core"
-  - ps: >-
-        If($env:PARTNER_NAMESPACE -eq 'oll.partners.us.dc') {
-          $env:PARTNERS_WHEEL = "--pre oll-partners-us-dc"
-        } else {  
-          $env:PARTNERS_WHEEL = "--pre oll-partners"
-        };
         
-  - "%PYTHON%\\python.exe -m pip -q install wheel"
-  - "%PYTHON%\\python.exe -m pip -q install %TAF_WHEEL%"
-  - "%PYTHON%\\python.exe -m pip -q install %CORE_WHEEL%"
-  - "%PYTHON%\\python.exe -m pip -q install %PARTNERS_WHEEL%"
+  - "%PYTHON%\\python.exe -m pip -q install -r requirements.txt"
+  - "%PYTHON%\\python.exe -m pip -q install pytest"
   - "%PYTHON%\\python.exe -m pip list"
 
   - "%PYTHON%\\python.exe  -m oll.tools.cli ci clone-repos --library-root .. --xml ../%APPVEYOR_PROJECT_SLUG% "
 
-  # install versioned resources (if and only if the build is a tag or cron build)
-  - "%PYTHON%\\python.exe -m pip -q install -r requirements.txt"
-  - "%PYTHON%\\python.exe -m pip -q install pytest"
   # print out the git commits for xml repo
   - git -C ..\%UPSTREAM% rev-parse HEAD
 
