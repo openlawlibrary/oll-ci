@@ -91,7 +91,7 @@ before_build:
 build_script:
   - ps: >-
       If ($env:APPVEYOR_SCHEDULED_BUILD -eq $True){
-        $run_sync = $env:PYTHON + '\python.exe -m oll.tools.cli ci synch-xml-with-upstream --library-root .. --auth ../law --upstream-url ' + $env:UPSTREAM_XML + ' --upstream-auth-url ' + $env:UPSTREAM_AUTH;
+        $run_sync = $env:PYTHON + '\python.exe -m oll.tools.cli ci synch-xml-with-upstream --library-root .. --auth ../law --upstream-url git@github.com' + $env:UPSTREAM + ' --upstream-auth-url git@github.com' + $env:UPSTREAM.Substring(0, $env:UPSTREAM.lastIndexOf('-'));
         iex $run_sync;
       };
       $env:FLAG = if ($env:APPVEYOR_PULL_REQUEST_NUMBER -eq $null) { "--deploy" }
