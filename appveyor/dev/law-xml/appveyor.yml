@@ -47,27 +47,6 @@ before_build:
   - ps: $env:PARTNER_NAMESPACE = $CONTENT_ARRAY[1];
 
   - ps: >-
-      If ($env:APPVEYOR_SCHEDULED_BUILD -eq $True){
-        echo 'Scheduled build. Checking if upstream can be merged';
-        git remote add upstream "https://github.com/$env:UPSTREAM.git";
-        git fetch upstream;
-        git merge upstream/master;
-        git diff --name-only --diff-filter=U >> output.log;
-        If (-Not [String]::IsNullOrWhiteSpace((Get-content output.log))){
-          throw 'Merge with upstream failed. Please update the repository manually';
-        }
-        else {
-          echo 'Upstream changes have been merged.';
-          git remote set-url origin git@github.com:$env:APPVEYOR_REPO_NAME'.git';
-
-          $requirementsContent = $REQUIREMENTS_CONTENT;
-          $requirementsContent | Set-Content -NoNewline -Path 'requirements.txt';
-          git add requirements.txt;
-          git commit -m "Reverted requirements.txt update";
-          git push origin HEAD:master;
-        }
-      };
-
       If ($env:TAF_BRANCH) {
         git clone -q git@github.com:openlawlibrary/taf.git ..\wheels\taf
         git -C ..\wheels\taf checkout -q $env:TAF_BRANCH
@@ -110,7 +89,12 @@ before_build:
   - git -C ..\%UPSTREAM% rev-parse HEAD
 
 build_script:
-  - ps: $env:FLAG = if ($env:APPVEYOR_PULL_REQUEST_NUMBER -eq $null) { "--deploy" }
+  - ps: >-
+      If ($env:APPVEYOR_SCHEDULED_BUILD -eq $True){
+        $run_sync = $env:PYTHON + '\python.exe -m oll.tools.cli ci synch-xml-with-upstream --library-root .. --auth ../law --upstream-url git@github.com' + $env:UPSTREAM + ' --upstream-auth-url git@github.com' + $env:UPSTREAM.Substring(0, $env:UPSTREAM.lastIndexOf('-'));
+        iex $run_sync;
+      };
+      $env:FLAG = if ($env:APPVEYOR_PULL_REQUEST_NUMBER -eq $null) { "--deploy" }
   - "%PYTHON%\\python.exe  -m oll.tools.cli ci build-preview --library-root .. --auth ../law %FLAG%"
 
 test_script:
