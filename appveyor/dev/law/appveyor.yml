@@ -81,7 +81,7 @@ before_build:
   - "%PYTHON%\\python.exe -m pip -q install %PARTNERS_WHEEL%"
   - "%PYTHON%\\python.exe -m pip list"
 
-  - "%PYTHON%\\python.exe  -m oll.tools.cli ci clone-repos --library-root .. --auth ../%APPVEYOR_PROJECT_SLUG% "
+  - "%PYTHON%\\python.exe  -m oll.tools.cli ci shallow-clone-archive .. git@github.com:%APPVEYOR_REPO_NAME%.git --target-type html --target-type xml --target-type xml-codified --target-type rdf "
 
   - git -C ..\%APPVEYOR_PROJECT_SLUG% remote set-url origin git@github.com:%APPVEYOR_REPO_NAME%.git
 
