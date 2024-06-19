@@ -80,7 +80,7 @@ before_build:
   - "%PYTHON%\\python.exe -m pip -q install %PARTNERS_WHEEL%"
   - "%PYTHON%\\python.exe -m pip list"
 
-  - "%PYTHON%\\python.exe  -m oll.tools.cli ci clone-repos --library-root .. --xml ../%APPVEYOR_PROJECT_SLUG% "
+  - "%PYTHON%\\python.exe  -m oll.tools.cli ci clone-repos-from-xml .. ../%APPVEYOR_PROJECT_SLUG% "
 
   # install versioned resources (if and only if the build is a tag or cron build)
   - "%PYTHON%\\python.exe -m pip -q install -r requirements.txt"
