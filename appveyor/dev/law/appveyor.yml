@@ -83,7 +83,7 @@ before_build:
 
   - mkdir archive
 
-  - "%PYTHON%\\python.exe  -m oll.tools.cli ci shallow-clone-archive ../archive git@github.com:%APPVEYOR_REPO_NAME%.git --target-type html --target-type xml --target-type xml-codified --target-type rdf "
+  - "%PYTHON%\\python.exe  -m oll.tools.cli ci clone-repos-from-auth .. ../%APPVEYOR_PROJECT_SLUG% "
 
   - git -C ..\%APPVEYOR_PROJECT_SLUG% remote set-url origin git@github.com:%APPVEYOR_REPO_NAME%.git
 
