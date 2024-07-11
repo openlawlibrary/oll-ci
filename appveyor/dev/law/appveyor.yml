@@ -94,7 +94,7 @@ build_script:
   - ps: $env:FLAG = if ($env:APPVEYOR_PULL_REQUEST_NUMBER -eq $null) { "--deploy" }
 
   # merge commits of update or speculative branches
-  - "%PYTHON%\\python.exe  -m oll.tools.cli ci merge-commits --library-root ../archive --auth ../%APPVEYOR_PROJECT_SLUG% %FLAG%"
+  - "%PYTHON%\\python.exe  -m oll.tools.cli ci merge-commits --library-root .. --auth ../%APPVEYOR_PROJECT_SLUG% %FLAG%"
 
   # update timestamp and/or snapshot metadata files if about to expire
   # if previous command merges something to master, this command won't update anything
