@@ -54,7 +54,7 @@ before_build:
   - "%PYTHON%\\python.exe -m pip -q install pytest"
   - "%PYTHON%\\python.exe -m pip list"
 
-  - "%PYTHON%\\python.exe  -m oll.tools.cli ci clone-repos --library-root .. --xml ../%APPVEYOR_PROJECT_SLUG% "
+  - "%PYTHON%\\python.exe  -m oll.tools.cli ci clone-repos-from-xml .. ../%APPVEYOR_PROJECT_SLUG% "
 
   # print out the git commits for xml repo
   - git -C ..\%UPSTREAM% rev-parse HEAD
