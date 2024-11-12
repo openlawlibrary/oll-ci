@@ -34,9 +34,9 @@ install:
   # the only way we can use the deploy key is by putting it in an environment variable (see above)
   # and then using PowerShell (ps) to copy the environment variable into a file (see below)
   # begin/end key lines should be in the environment variable
-  - ps: $key = "-----BEGIN RSA PRIVATE KEY-----`n"
+  - ps: $key = "-----BEGIN OPENSSH PRIVATE KEY-----`n"
   - ps: $key += $env:GH_SSH_PRIVATE_KEY.Replace(" ", "`n")
-  - ps: $key += "`n-----END RSA PRIVATE KEY-----`n"
+  - ps: $key += "`n-----END OPENSSH PRIVATE KEY-----`n"
   - ps: Set-Content c:\users\appveyor\.ssh\id_rsa $key
   - set %PARTNER%_XML_CODIFIED_PATH=..\%UPSTREAM%-codified-preview
 
@@ -81,7 +81,7 @@ notifications:
   - provider: Slack
     incoming_webhook:
       # post to the fire channel
-      secure: KUaR+KAqX1jU0LF7kRDKHHGEAoItFzIHSjcreyRvnrT1vcX5+4iV77Ivysxl8jhh8ocUE0JCcmcKI0xPTb+M+EMfb8xk9L7+XCTdNubjU5w=
+      secure: KUaR+KAqX1jU0LF7kRDKHHGEAoItFzIHSjcreyRvnrRGMiSObCLPipW6KJUwvpl7CEWa8PP2LPzgiQssPcUWLCzoIVY+NvucTI+1NJ0H7GM=
     on_build_success: false
 
 artifacts:
