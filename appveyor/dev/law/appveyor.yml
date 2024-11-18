@@ -2,6 +2,8 @@ image:
   - Visual Studio 2019
 
 environment:
+  SLACK_WEBHOOK_TOKEN_FIRE:
+    secure: KUaR+KAqX1jU0LF7kRDKHHGEAoItFzIHSjcreyRvnrT1vcX5+4iV77Ivysxl8jhh8ocUE0JCcmcKI0xPTb+M+EMfb8xk9L7+XCTdNubjU5w=
   matrix:
     # For Python versions available on Appveyor, see
     # http://www.appveyor.com/docs/installed-software#python
@@ -97,7 +99,8 @@ build_script:
   # update timestamp and/or snapshot metadata files if about to expire
   # if previous command merges something to master, this command won't update anything
   - "%PYTHON%\\python.exe -m oll.tools.cli ci update-timestamp-and-snapshot --auth ../%APPVEYOR_PROJECT_SLUG% %FLAG%"
-  
+  - "%PYTHON%\\python.exe -m oll.tools.cli ci check-if-roles-expired --auth ../%APPVEYOR_PROJECT_SLUG% --interval 10"
+
 notifications:
   - provider: Slack
     incoming_webhook:
